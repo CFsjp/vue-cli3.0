@@ -9,6 +9,7 @@ class HttpRequest {
     this.queue = {}
   }
   public queue: any
+
   getInsideConfig() {
     const config = {
       baseURL: baseUrl,
@@ -16,12 +17,14 @@ class HttpRequest {
     }
     return config
   }
+
   destroy(url: string) {
     delete this.queue[url]
     // if (!Object.keys(this.queue).length) {
     //   // hide loading
     // }
   }
+
   interceptors(instance: any, url?: string) {
     // 请求拦截
     instance.interceptors.request.use(
@@ -38,6 +41,7 @@ class HttpRequest {
         return Promise.reject(error)
       }
     )
+
     // 响应拦截
     instance.interceptors.response.use(
       (res: AxiosResponse) => {
@@ -57,6 +61,7 @@ class HttpRequest {
         }
         return { data, status }
       },
+
       (error: any) => {
         if (url) {
           this.destroy(url)
@@ -110,6 +115,7 @@ class HttpRequest {
       }
     )
   }
+
   async request(options: AxiosRequestConfig) {
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
